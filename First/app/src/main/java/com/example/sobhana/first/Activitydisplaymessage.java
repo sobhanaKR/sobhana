@@ -1,76 +1,57 @@
 package com.example.sobhana.first;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.Menu;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by sobhana on 23/6/17.
  */
 
-public class Activitydisplaymessage extends Activity implements Frag.OnHeadlineSelectedListener{
+public class Activitydisplaymessage extends AppCompatActivity implements Frag.OnHeadlineSelectedListener{
 
     int i=1;
     String name;
     String url;
-    public void onArticleSelected(int position,String name,String url) {
-        this.name=name;
-        this.url=url;
-        ArticleFrag newFragment1 =new ArticleFrag(name,url);
+    Activity activity;
+   // ArrayList<Product> product_specific_data;
+    public void onArticleSelected(int position,ArrayList<Product> product_specific_data) {
+        ArticleFrag newFragment1 =new ArticleFrag();
         Bundle args = new Bundle();
         args.putInt(ArticleFrag.ARG_POSITION, position);
-
+        args.putSerializable( ArticleFrag.b ,product_specific_data);
+        activity = this;
+        Log.i ( "anisham","anisham**"+product_specific_data.size () );
         newFragment1.setArguments(args);
-
-
-        android.app.FragmentManager fm=getFragmentManager ();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.FrameLayout1, newFragment1);
+        FragmentManager fm =  getSupportFragmentManager ();
+        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.FrameLayout1,newFragment1 );
         ft.addToBackStack(null);
         ft.commit ();
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.frag);
-        if (savedInstanceState == null) {
-            Fragment newFragment = Frag.newInstance(i);
-            android.app.FragmentManager fm=getFragmentManager ();
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.add(R.id.FrameLayout1, newFragment);
-            // ft.replace(R.id.FrameLayout1, newFragment);
-            // ft.addToBackStack(null);
-            ft.commit ();
-        } else {
-            i = savedInstanceState.getInt("level");
-        }
+        super.onCreate ( savedInstanceState );
+        setContentView ( R.layout.frag );
+        Log.i ( "anisham", "anisham1 " );
+
+        android.support.v4.app.Fragment newFragment = Frag.newInstance ( i );
+        FragmentManager fm = getSupportFragmentManager ( );
+        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction ( );
+        ft.add ( R.id.FrameLayout1, newFragment );
+        ft.commit ( );
 
     }
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("level", i);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.articlefrag, menu);
+        return true;
     }
-
 }
 
 

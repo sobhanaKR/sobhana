@@ -1,7 +1,6 @@
 package com.example.sobhana.first;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.sobhana.first.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -51,7 +49,7 @@ public class Data_Adapter extends RecyclerView.Adapter<Data_Adapter.ViewHolder> 
             @Override
             public void onClick(View v)
             {
-                mCallback.onArticleSelected(i,product_specific_data.get(i).getName(),product_specific_data.get(i).getImage());
+                mCallback.onArticleSelected(i, product_specific_data);
                 //   ArticleFrag f=new ArticleFrag();
 
             }
